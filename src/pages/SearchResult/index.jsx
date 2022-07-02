@@ -16,20 +16,18 @@ export default function SearchResult() {
 	const [searchValue, setSearchValue] = useState("");
 	const [user, setUser] = useState({});
 	const [repos, setRepos] = useState([]);
+	const [nextPage, setNextPage] = useState(0);
 	const [failedSearch, setFailedSearch] = useState(false);
 	const history = useHistory();
 
 	useEffect(() => {
 		if (localStorage.getItem("user")) {
-			let repositories = localStorage.getItem("repositories");
-			let user = localStorage.getItem("user");
-
-			repositories = JSON.parse(repositories);
-
-			user = JSON.parse(user);
+			const repositories = JSON.parse(localStorage.getItem("repositories"));
+			const user = JSON.parse(localStorage.getItem("user"));
 
 			setRepos(repositories);
 			setUser(user);
+			setNextPage(2);
 			setSearchValue(user?.login);
 
 			localStorage.clear();
@@ -42,7 +40,6 @@ export default function SearchResult() {
 		getRepos(searchValue)
 			.then((response) => {
 				setRepos(response.data);
-				console.log(response.data);
 				setFailedSearch(false);
 			})
 			.catch(() => {
@@ -52,7 +49,6 @@ export default function SearchResult() {
 		getUser(searchValue)
 			.then((response) => {
 				setUser(response.data);
-				console.log(response.data);
 				setFailedSearch(false);
 			})
 			.catch(() => {
@@ -65,6 +61,14 @@ export default function SearchResult() {
 		if (e.key === "Enter") {
 			handleSearch();
 		}
+	}
+
+	async function handleFetchMore() {
+		const response = await getRepos(user.login, nextPage);
+
+		setRepos([...repos, ...response.data]);
+
+		setNextPage(nextPage + 1);
 	}
 
 	return (
@@ -96,6 +100,12 @@ export default function SearchResult() {
 					/>
 				))}
 			</CardsWrapper>
+
+			{repos.length === 20 * (nextPage - 1) ? (
+				<button onClick={handleFetchMore}>Fetch More</button>
+			) : (
+				""
+			)}
 		</PageWrapper>
 	);
 }
