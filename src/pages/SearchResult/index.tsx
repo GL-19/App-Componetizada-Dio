@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router";
-import { Card, Profile } from "../../components";
-
-import { PageWrapper, CardsWrapper, Logo } from "./styles";
-import githubLogo from "../../images/GitHub_Logo.png";
 import { useGithub } from "../../providers/GithubProvider";
+
+import { Card, Profile } from "../../components";
+import { PageWrapper, CardsWrapper, Logo } from "./styles";
+
+import githubLogo from "../../images/GitHub_Logo.png";
 
 export function SearchResult() {
 	const { user, repositories, nextPage, fetchMoreRepositories } = useGithub();

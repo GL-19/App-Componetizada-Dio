@@ -1,8 +1,4 @@
-import companyIcon from "../../images/company.png";
-import locationIcon from "../../images/location.png";
-import linkIcon from "../../images/link.png";
-import twitterIcon from "../../images/twitter.png";
-import emailIcon from "../../images/email.png";
+import { User } from "../../interfaces";
 import {
 	ProfileContainer,
 	InfoContainer,
@@ -13,7 +9,12 @@ import {
 	Link,
 	Icon,
 } from "./styles";
-import { User } from "../../providers/GithubProvider";
+
+import companyIcon from "../../images/company.png";
+import locationIcon from "../../images/location.png";
+import linkIcon from "../../images/link.png";
+import twitterIcon from "../../images/twitter.png";
+import emailIcon from "../../images/email.png";
 
 interface ProfileProps {
 	user: User;

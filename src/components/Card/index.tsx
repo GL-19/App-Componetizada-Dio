@@ -1,7 +1,7 @@
 import { CardContainer, Text, Title, Icon } from "./styles";
 import starIcon from "../../images/star.png";
 import forkIcon from "../../images/fork.png";
-import { Repository } from "../../providers/GithubProvider";
+import { Repository } from "../../interfaces";
 
 interface CardProps {
 	repository: Repository;
