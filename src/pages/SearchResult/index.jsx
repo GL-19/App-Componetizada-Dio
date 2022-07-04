@@ -1,39 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router";
 import { Card, Profile } from "../../components";
-import { getRepos } from "../../services/api";
+
 import { PageWrapper, CardsWrapper, Logo } from "./styles";
 import githubLogo from "../../assets/images/GitHub_Logo.png";
+import { useGithub } from "../../providers/GithubProvider";
 
 export default function SearchResult() {
-	const [user, setUser] = useState({});
-	const [repos, setRepos] = useState([]);
-	const [nextPage, setNextPage] = useState(0);
-
+	const { user, repositories, nextPage, getMoreRepositories } = useGithub();
 	const history = useHistory();
 
 	useEffect(() => {
-		if (localStorage.getItem("user")) {
-			const user = JSON.parse(localStorage.getItem("user"));
-			const repositories = JSON.parse(localStorage.getItem("repositories"));
-
-			setRepos(repositories);
-			setUser(user);
-			setNextPage(2);
-
-			localStorage.clear();
-		} else {
-			history.push("/");
-		}
-	}, [history]);
-
-	async function handleFetchMore() {
-		const response = await getRepos(user.login, nextPage);
-
-		setRepos([...repos, ...response.data]);
-
-		setNextPage(nextPage + 1);
-	}
+		if (Object.keys(user).length <= 0) history.push("/");
+	}, [user, history]);
 
 	return (
 		<PageWrapper>
@@ -42,7 +21,7 @@ export default function SearchResult() {
 			{user.login && <Profile userData={user} />}
 
 			<CardsWrapper>
-				{repos.map((repo) => (
+				{repositories.map((repo) => (
 					<Card
 						name={repo.name}
 						description={repo.description}
@@ -55,8 +34,8 @@ export default function SearchResult() {
 				))}
 			</CardsWrapper>
 
-			{repos.length === 20 * (nextPage - 1) ? (
-				<button onClick={handleFetchMore}>Fetch More</button>
+			{repositories.length === 20 * (nextPage - 1) ? (
+				<button onClick={getMoreRepositories}>Fetch More</button>
 			) : (
 				""
 			)}
