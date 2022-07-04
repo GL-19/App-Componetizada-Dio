@@ -1,67 +1,31 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { Card, Profile } from "../../components";
-import { getRepos, getUser } from "../../services/api";
-import {
-	PageWrapper,
-	CardsWrapper,
-	SearchWrapper,
-	Logo,
-	Button,
-	Warning,
-} from "./styles";
+import { getRepos } from "../../services/api";
+import { PageWrapper, CardsWrapper, Logo } from "./styles";
 import githubLogo from "../../assets/images/GitHub_Logo.png";
 
 export default function SearchResult() {
-	const [searchValue, setSearchValue] = useState("");
 	const [user, setUser] = useState({});
 	const [repos, setRepos] = useState([]);
 	const [nextPage, setNextPage] = useState(0);
-	const [failedSearch, setFailedSearch] = useState(false);
+
 	const history = useHistory();
 
 	useEffect(() => {
 		if (localStorage.getItem("user")) {
-			const repositories = JSON.parse(localStorage.getItem("repositories"));
 			const user = JSON.parse(localStorage.getItem("user"));
+			const repositories = JSON.parse(localStorage.getItem("repositories"));
 
 			setRepos(repositories);
 			setUser(user);
 			setNextPage(2);
-			setSearchValue(user?.login);
 
 			localStorage.clear();
-		} else if (!failedSearch) {
+		} else {
 			history.push("/");
 		}
-	}, [failedSearch, history]);
-
-	function handleSearch() {
-		getRepos(searchValue)
-			.then((response) => {
-				setRepos(response.data);
-				setFailedSearch(false);
-			})
-			.catch(() => {
-				setRepos([]);
-				setFailedSearch(true);
-			});
-		getUser(searchValue)
-			.then((response) => {
-				setUser(response.data);
-				setFailedSearch(false);
-			})
-			.catch(() => {
-				setUser({});
-				setFailedSearch(true);
-			});
-	}
-
-	function handleKeyPress(e) {
-		if (e.key === "Enter") {
-			handleSearch();
-		}
-	}
+	}, [history]);
 
 	async function handleFetchMore() {
 		const response = await getRepos(user.login, nextPage);
@@ -74,19 +38,9 @@ export default function SearchResult() {
 	return (
 		<PageWrapper>
 			<Logo src={githubLogo} alt="Logo Github" />
-			<SearchWrapper>
-				<input
-					type="text"
-					value={searchValue}
-					onChange={(e) => setSearchValue(e.target.value)}
-					onKeyPress={handleKeyPress}
-				/>
-				<Button type="submit" onClick={handleSearch}>
-					Pesquisar
-				</Button>
-			</SearchWrapper>
-			{failedSearch && <Warning>Usuário não encontrado</Warning>}
+
 			{user.login && <Profile userData={user} />}
+
 			<CardsWrapper>
 				{repos.map((repo) => (
 					<Card

@@ -34,10 +34,3 @@ export const Logo = styled.img`
 	width: 200px;
 	height: 80px;
 `;
-
-export const Input = styled.input``;
-
-export const Button = styled.button`
-	background-color: black;
-	color: white;
-`;
