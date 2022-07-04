@@ -1,4 +1,3 @@
-import React from "react";
 import companyIcon from "../../assets/images/company.png";
 import locationIcon from "../../assets/images/location.png";
 import linkIcon from "../../assets/images/link.png";

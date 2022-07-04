@@ -1,4 +1,3 @@
-import React from "react";
 import { CardContainer, Text, Title, Icon } from "./styles";
 import starIcon from "../../assets/images/star.png";
 import forkIcon from "../../assets/images/fork.png";

@@ -1,37 +1,26 @@
-import { useState } from "react";
 import { useHistory } from "react-router";
-import { getRepos, getUser } from "../../services/api";
+
 import { PageWrapper, Logo, Text, ErrorMsg } from "./styles";
 import githubLogo from "../../assets/images/GitHub_Logo.png";
 import { SearchForm } from "../../components/SearchForm";
+import { useGithub } from "../../providers/GithubProvider";
 
-export default function Home() {
-	const [failedSearch, setFailedSearch] = useState(false);
+export function Home() {
+	const { userNotFound, getGithubData } = useGithub();
 
 	const history = useHistory();
 
-	async function getData(searchValue: string): Promise<void> {
-		try {
-			const userResponse = await getUser(searchValue);
-			const repoResponse = await getRepos(searchValue);
+	async function handleSearch(searchValue: string): Promise<void> {
+		await getGithubData(searchValue);
 
-			console.log("user", userResponse.data);
-			console.log("repos", repoResponse.data);
-
-			localStorage.setItem("repositories", JSON.stringify(repoResponse.data));
-			localStorage.setItem("user", JSON.stringify(userResponse.data));
-
-			history.push("/search");
-		} catch (e) {
-			setFailedSearch(true);
-		}
+		history.push("/search");
 	}
 
 	return (
 		<PageWrapper>
 			<Logo src={githubLogo} alt="Logo Github" />
-			<SearchForm onSubmit={getData} />
-			{!failedSearch ? (
+			<SearchForm onSubmit={handleSearch} />
+			{!userNotFound ? (
 				<Text>Pesquise um nome de usuário</Text>
 			) : (
 				<ErrorMsg>Usuário não encontrado</ErrorMsg>

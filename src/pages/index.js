@@ -1,6 +1,4 @@
-import Home from './Home';
-import SearchResult from './SearchResult';
+import { Home } from "./Home";
+import SearchResult from "./SearchResult";
 
-export {
-  Home, SearchResult
-};
+export { Home, SearchResult };
