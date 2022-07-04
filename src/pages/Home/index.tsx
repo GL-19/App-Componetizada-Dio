@@ -1,17 +1,17 @@
 import { useHistory } from "react-router";
 
 import { PageWrapper, Logo, Text, ErrorMsg } from "./styles";
-import githubLogo from "../../assets/images/GitHub_Logo.png";
+import githubLogo from "../../images/GitHub_Logo.png";
 import { SearchForm } from "../../components/SearchForm";
 import { useGithub } from "../../providers/GithubProvider";
 
 export function Home() {
-	const { userNotFound, getGithubData } = useGithub();
+	const { userNotFound, fetchGithubData } = useGithub();
 
 	const history = useHistory();
 
 	async function handleSearch(searchValue: string): Promise<void> {
-		await getGithubData(searchValue);
+		await fetchGithubData(searchValue);
 
 		history.push("/search");
 	}

@@ -1,8 +1,8 @@
-import companyIcon from "../../assets/images/company.png";
-import locationIcon from "../../assets/images/location.png";
-import linkIcon from "../../assets/images/link.png";
-import twitterIcon from "../../assets/images/twitter.png";
-import emailIcon from "../../assets/images/email.png";
+import companyIcon from "../../images/company.png";
+import locationIcon from "../../images/location.png";
+import linkIcon from "../../images/link.png";
+import twitterIcon from "../../images/twitter.png";
+import emailIcon from "../../images/email.png";
 import {
 	ProfileContainer,
 	InfoContainer,
@@ -13,8 +13,13 @@ import {
 	Link,
 	Icon,
 } from "./styles";
+import { User } from "../../providers/GithubProvider";
 
-export default function Profile(props) {
+interface ProfileProps {
+	user: User;
+}
+
+export function Profile({ user }: ProfileProps) {
 	const {
 		avatar_url: profileImg,
 		html_url: url,
@@ -25,7 +30,7 @@ export default function Profile(props) {
 		email,
 		blog,
 		twitter_username: twitter,
-	} = props.userData;
+	} = user;
 
 	return (
 		<ProfileContainer>

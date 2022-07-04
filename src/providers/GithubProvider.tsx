@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { getRepos, getUser } from "../services/api";
+import { getRepositories, getUser } from "../services/api";
 
-interface User {
+export interface User {
 	avatar_url: string;
 	html_url: string;
 	name: string;
@@ -13,7 +13,7 @@ interface User {
 	twitter_username: string;
 }
 
-interface Repository {
+export interface Repository {
 	name: string;
 	description: string;
 	created_at: string;
@@ -28,8 +28,8 @@ interface GithubContextData {
 	repositories: Repository[];
 	userNotFound: boolean;
 	nextPage: number;
-	getGithubData: (searchValue: string) => Promise<void>;
-	getMoreRepositories: () => Promise<void>;
+	fetchGithubData: (searchValue: string) => Promise<void>;
+	fetchMoreRepositories: () => Promise<void>;
 }
 
 const GithubContext = createContext<GithubContextData>({} as GithubContextData);
@@ -40,34 +40,33 @@ interface GithubProviderProps {
 
 export function GithubProvider({ children }: GithubProviderProps) {
 	const [user, setUser] = useState<User>({} as User);
+	const [userNotFound, setUserNotFound] = useState(false);
 	const [repositories, setRepositories] = useState<Repository[]>([]);
 	const [nextPage, setNextPage] = useState(1);
-	const [userNotFound, setUserNotFound] = useState(false);
 
-	async function getGithubData(searchValue: string) {
+	async function fetchGithubData(searchValue: string) {
 		try {
 			const userResponse = await getUser(searchValue);
 
-			const repoResponse = await getRepos(searchValue);
+			const repoResponse = await getRepositories(searchValue, nextPage);
 
 			console.log("user", userResponse.data);
 			console.log("repos", repoResponse.data);
 
 			setUser(userResponse.data);
-			localStorage.setItem("user", JSON.stringify(userResponse.data));
-
 			setRepositories(repoResponse.data);
-			localStorage.setItem("repositories", JSON.stringify(repoResponse.data));
-
 			setUserNotFound(false);
 			setNextPage(2);
 		} catch {
+			setUser({} as User);
+			setRepositories([]);
+			setNextPage(1);
 			setUserNotFound(true);
 		}
 	}
 
-	async function getMoreRepositories() {
-		const { data } = await getRepos(user.login, nextPage);
+	async function fetchMoreRepositories() {
+		const { data } = await getRepositories(user.login, nextPage);
 
 		setRepositories([...repositories, ...data]);
 
@@ -81,8 +80,8 @@ export function GithubProvider({ children }: GithubProviderProps) {
 				repositories,
 				userNotFound,
 				nextPage,
-				getGithubData,
-				getMoreRepositories,
+				fetchGithubData,
+				fetchMoreRepositories,
 			}}
 		>
 			{children}

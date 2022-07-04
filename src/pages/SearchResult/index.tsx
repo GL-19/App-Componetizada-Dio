@@ -3,11 +3,11 @@ import { useHistory } from "react-router";
 import { Card, Profile } from "../../components";
 
 import { PageWrapper, CardsWrapper, Logo } from "./styles";
-import githubLogo from "../../assets/images/GitHub_Logo.png";
+import githubLogo from "../../images/GitHub_Logo.png";
 import { useGithub } from "../../providers/GithubProvider";
 
-export default function SearchResult() {
-	const { user, repositories, nextPage, getMoreRepositories } = useGithub();
+export function SearchResult() {
+	const { user, repositories, nextPage, fetchMoreRepositories } = useGithub();
 	const history = useHistory();
 
 	useEffect(() => {
@@ -20,24 +20,16 @@ export default function SearchResult() {
 				<>
 					<Logo src={githubLogo} alt="Logo Github" />
 
-					<Profile userData={user} />
+					<Profile user={user} />
 
 					<CardsWrapper>
-						{repositories.map((repo) => (
-							<Card
-								name={repo.name}
-								description={repo.description}
-								createDate={repo.created_at}
-								lastUpdateDate={repo.pushed_at}
-								url={repo.clone_url}
-								forks={repo.forks_count}
-								stars={repo.stargazers_count}
-							/>
+						{repositories.map((repository) => (
+							<Card key={repository.name} repository={repository} />
 						))}
 					</CardsWrapper>
 
 					{repositories.length === 20 * (nextPage - 1) ? (
-						<button onClick={getMoreRepositories}>Fetch More</button>
+						<button onClick={fetchMoreRepositories}>Fetch More</button>
 					) : (
 						""
 					)}

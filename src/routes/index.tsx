@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Home, SearchResult } from "../pages";
+import { Home, PageNotFound, SearchResult } from "../pages";
 
 export default function Routes() {
 	return (
@@ -12,7 +12,7 @@ export default function Routes() {
 					<SearchResult />
 				</Route>
 				<Route path="*">
-					<h1>Página não encontrada</h1>
+					<PageNotFound />
 				</Route>
 			</Switch>
 		</BrowserRouter>
