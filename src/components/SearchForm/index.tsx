@@ -19,6 +19,7 @@ export function SearchForm({ onSubmit }: SearchFormProps) {
 			<input
 				type="text"
 				minLength={1}
+				required
 				value={searchValue}
 				onChange={(e) => setSearchValue(e.target.value)}
 			/>
