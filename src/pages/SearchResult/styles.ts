@@ -1,33 +1,25 @@
 import styled from "styled-components";
 
 export const PageWrapper = styled.div`
+	width: 100vw;
+
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 100vw;
-`;
 
-export const SearchWrapper = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	width: 100vw;
+	gap: 2rem;
 `;
 
 export const CardsWrapper = styled.div`
+	width: 80vw;
+
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-evenly;
 	align-items: center;
-	width: 80vw;
-`;
 
-export const Warning = styled.p`
-	color: red;
-	font-size: 18px;
-	font-weight: bold;
+	gap: 1.25rem;
 `;
 
 export const Logo = styled.img`

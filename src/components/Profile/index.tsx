@@ -1,4 +1,12 @@
 import { User } from "../../interfaces";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import {
+	faBuilding,
+	faEnvelope,
+	faFolderClosed,
+} from "@fortawesome/free-regular-svg-icons";
+import { faMapMarkerAlt, faLink, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import {
 	ProfileContainer,
 	InfoContainer,
@@ -7,14 +15,7 @@ import {
 	Text,
 	Photo,
 	Link,
-	Icon,
 } from "./styles";
-
-import companyIcon from "../../images/company.png";
-import locationIcon from "../../images/location.png";
-import linkIcon from "../../images/link.png";
-import twitterIcon from "../../images/twitter.png";
-import emailIcon from "../../images/email.png";
 
 interface ProfileProps {
 	user: User;
@@ -30,50 +31,58 @@ export function Profile({ user }: ProfileProps) {
 		company,
 		email,
 		blog,
-		twitter_username: twitter,
+		followers,
+		following,
+		public_repos,
 	} = user;
 
 	return (
 		<ProfileContainer>
 			<PhotoContainer>
-				<Photo src={profileImg} alt="Foto usuário" />
-				<Title>{name}</Title>
+				<Photo src={profileImg} alt="user" />
+
 				<Link href={url} target="_blank" rel="noreferrer">
+					<FontAwesomeIcon icon={faGithub} />
 					{login}
 				</Link>
+
+				<Title>{name}</Title>
 			</PhotoContainer>
+
 			<InfoContainer>
-				<Title>Informações</Title>
-				{location && (
-					<Text>
-						<Icon src={locationIcon} />
-						{location}
-					</Text>
-				)}
-				{company && (
-					<Text>
-						<Icon src={companyIcon} />
-						{company}
-					</Text>
-				)}
-				{blog && (
-					<Link href={blog} target="_blank" rel="noreferrer">
-						<Icon src={linkIcon} />
-						{blog}
-					</Link>
-				)}
-				{email && (
-					<Text>
-						<Icon src={emailIcon} />
-						{email}
-					</Text>
-				)}
-				{twitter && (
-					<Text>
-						<Icon src={twitterIcon} />
-						{twitter}
-					</Text>
-				)}
+				<Text>
+					<FontAwesomeIcon icon={faMapMarkerAlt} />
+					{location ? location : ""}
+				</Text>
+
+				<Text>
+					<FontAwesomeIcon icon={faBuilding} />
+					{company ? company : ""}
+				</Text>
+
+				<Text>
+					<FontAwesomeIcon icon={faLink} />
+					{blog ? blog : ""}
+				</Text>
+
+				<Text>
+					<FontAwesomeIcon icon={faEnvelope} />
+					{email ? email : ""}
+				</Text>
+
+				<Text>
+					<FontAwesomeIcon icon={faFolderClosed} />
+					{`${public_repos} repositories`}
+				</Text>
+
+				<Text>
+					<FontAwesomeIcon icon={faUserFriends} />
+					{`${followers} Followers`}
+				</Text>
+				<Text>
+					<FontAwesomeIcon icon={faUserFriends} />
+					{`${following} Following`}
+				</Text>
 			</InfoContainer>
 		</ProfileContainer>
 	);

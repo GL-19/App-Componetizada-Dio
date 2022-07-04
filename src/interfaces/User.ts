@@ -8,4 +8,8 @@ export interface User {
 	email: string;
 	blog: string;
 	twitter_username: string;
+	followers: number;
+	following: number;
+	public_gists: number;
+	public_repos: number;
 }

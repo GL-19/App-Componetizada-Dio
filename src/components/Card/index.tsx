@@ -1,7 +1,9 @@
-import { CardContainer, Text, Title, Icon } from "./styles";
-import starIcon from "../../images/star.png";
-import forkIcon from "../../images/fork.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+
 import { Repository } from "../../interfaces";
+import { CardContainer, Text, Title } from "./styles";
 
 interface CardProps {
 	repository: Repository;
@@ -16,10 +18,11 @@ export function Card({ repository }: CardProps) {
 			<Title href={clone_url} target="_blank" rel="noreferrer">
 				{name}
 			</Title>
-			<Text>Criado em {created_at.split("T")[0]}</Text>
-			<Text>Atualizado em {pushed_at.split("T")[0]}</Text>
+			<Text>Created at {created_at.split("T")[0]}</Text>
+			<Text>Last pushed at {pushed_at.split("T")[0]}</Text>
 			<Text>
-				{stargazers_count} <Icon src={starIcon} /> | {forks_count} <Icon src={forkIcon} />
+				{stargazers_count} <FontAwesomeIcon icon={faStar} /> | {forks_count}{" "}
+				<FontAwesomeIcon icon={faCodeBranch} />
 			</Text>
 		</CardContainer>
 	);

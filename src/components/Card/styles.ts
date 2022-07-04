@@ -1,39 +1,40 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-  width: 300px;
-  height: 250px;
-  display: flex;
-  margin: 10px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: black solid 2px;
-  border-radius: 10%;
-  font-family: 'Roboto Slab', 'sans-serif', serif;
-  word-wrap: break-word;
-  line-height: 1rem;
+	width: 20rem;
+	height: 15rem;
+	padding: 1.33rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+
+	background-color: var(--black);
+	border-radius: 1rem;
 `;
 
 export const Title = styled.a`
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  color: black;
-  text-decoration: none;
-  margin: 5px 5px 15px 5px;
-  &:hover {
-    color: red;
-    text-decoration: underline;
-  }
+	color: var(--lightGray);
+
+	font-size: 1.125rem;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+
+	&:hover {
+		color: var(--darkGray);
+		text-decoration: underline;
+	}
 `;
 
 export const Text = styled.p`
-  font-size: 14px;
-  margin: 5px;
+	font-size: 0.875rem;
 `;
 
 export const Icon = styled.img`
-  width: 14px;
-  height: 14px;
+	width: 1rem;
+	height: 1rem;
+
+	color: var(--darkGray);
 `;
